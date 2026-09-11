@@ -2,34 +2,266 @@
   {
     "name": "常用",
     "links": [
-      { "name": "GitHub", "url": "https://github.com" },
-      { "name": "Gmail", "url": "https://mail.google.com" },
-      { "name": "Notion", "url": "https://www.notion.so" },
-      { "name": "ChatGPT", "url": "https://chatgpt.com" },
-      { "name": "Figma", "url": "https://www.figma.com" },
-      { "name": "Google 翻译", "url": "https://translate.google.com" }
+      {
+        "name": "GitHub",
+        "url": "https://github.com"
+      },
+      {
+        "name": "Gmail",
+        "url": "https://mail.google.com"
+      },
+      {
+        "name": "Notion",
+        "url": "https://www.notion.so"
+      },
+      {
+        "name": "ChatGPT",
+        "url": "https://chatgpt.com"
+      },
+      {
+        "name": "Figma",
+        "url": "https://www.figma.com"
+      },
+      {
+        "name": "Google 翻译",
+        "url": "https://translate.google.com"
+      },
+      {
+        "name": "Google Drive",
+        "url": "https://drive.google.com"
+      },
+      {
+        "name": "Google 日历",
+        "url": "https://calendar.google.com"
+      },
+      {
+        "name": "Outlook",
+        "url": "https://outlook.live.com"
+      },
+      {
+        "name": "DeepL",
+        "url": "https://www.deepl.com"
+      },
+      {
+        "name": "Claude",
+        "url": "https://claude.ai"
+      },
+      {
+        "name": "百度地图",
+        "url": "https://map.baidu.com"
+      }
     ]
   },
   {
     "name": "开发",
     "links": [
-      { "name": "MDN", "url": "https://developer.mozilla.org" },
-      { "name": "React", "url": "https://react.dev" },
-      { "name": "Stack Overflow", "url": "https://stackoverflow.com" },
-      { "name": "Vercel", "url": "https://vercel.com" },
-      { "name": "npm", "url": "https://www.npmjs.com" },
-      { "name": "掘金", "url": "https://juejin.cn" }
+      {
+        "name": "MDN",
+        "url": "https://developer.mozilla.org"
+      },
+      {
+        "name": "React",
+        "url": "https://react.dev"
+      },
+      {
+        "name": "Stack Overflow",
+        "url": "https://stackoverflow.com"
+      },
+      {
+        "name": "Vercel",
+        "url": "https://vercel.com"
+      },
+      {
+        "name": "npm",
+        "url": "https://www.npmjs.com"
+      },
+      {
+        "name": "掘金",
+        "url": "https://juejin.cn"
+      },
+      {
+        "name": "TypeScript",
+        "url": "https://www.typescriptlang.org"
+      },
+      {
+        "name": "Vite",
+        "url": "https://vite.dev"
+      },
+      {
+        "name": "Tailwind CSS",
+        "url": "https://tailwindcss.com"
+      },
+      {
+        "name": "shadcn/ui",
+        "url": "https://ui.shadcn.com"
+      },
+      {
+        "name": "Node.js",
+        "url": "https://nodejs.org"
+      },
+      {
+        "name": "Docker Hub",
+        "url": "https://hub.docker.com"
+      }
     ]
   },
   {
     "name": "娱乐",
     "links": [
-      { "name": "哔哩哔哩", "url": "https://www.bilibili.com" },
-      { "name": "YouTube", "url": "https://www.youtube.com" },
-      { "name": "豆瓣", "url": "https://www.douban.com" },
-      { "name": "Spotify", "url": "https://open.spotify.com" },
-      { "name": "少数派", "url": "https://sspai.com" },
-      { "name": "Wikipedia", "url": "https://www.wikipedia.org" }
+      {
+        "name": "哔哩哔哩",
+        "url": "https://www.bilibili.com"
+      },
+      {
+        "name": "YouTube",
+        "url": "https://www.youtube.com"
+      },
+      {
+        "name": "豆瓣",
+        "url": "https://www.douban.com"
+      },
+      {
+        "name": "Spotify",
+        "url": "https://open.spotify.com"
+      },
+      {
+        "name": "少数派",
+        "url": "https://sspai.com"
+      },
+      {
+        "name": "Wikipedia",
+        "url": "https://www.wikipedia.org"
+      },
+      {
+        "name": "网易云音乐",
+        "url": "https://music.163.com"
+      },
+      {
+        "name": "Steam",
+        "url": "https://store.steampowered.com"
+      },
+      {
+        "name": "小红书",
+        "url": "https://www.xiaohongshu.com"
+      },
+      {
+        "name": "知乎",
+        "url": "https://www.zhihu.com"
+      },
+      {
+        "name": "Reddit",
+        "url": "https://www.reddit.com"
+      },
+      {
+        "name": "Twitch",
+        "url": "https://www.twitch.tv"
+      }
+    ]
+  },
+  {
+    "name": "设计",
+    "links": [
+      {
+        "name": "Dribbble",
+        "url": "https://dribbble.com"
+      },
+      {
+        "name": "Behance",
+        "url": "https://www.behance.net"
+      },
+      {
+        "name": "Awwwards",
+        "url": "https://www.awwwards.com"
+      },
+      {
+        "name": "Unsplash",
+        "url": "https://unsplash.com"
+      },
+      {
+        "name": "Pexels",
+        "url": "https://www.pexels.com"
+      },
+      {
+        "name": "Coolors",
+        "url": "https://coolors.co"
+      },
+      {
+        "name": "Google Fonts",
+        "url": "https://fonts.google.com"
+      },
+      {
+        "name": "Lucide",
+        "url": "https://lucide.dev"
+      },
+      {
+        "name": "Iconify",
+        "url": "https://icon-sets.iconify.design"
+      },
+      {
+        "name": "Canva",
+        "url": "https://www.canva.com"
+      },
+      {
+        "name": "Excalidraw",
+        "url": "https://excalidraw.com"
+      },
+      {
+        "name": "Framer",
+        "url": "https://www.framer.com"
+      }
+    ]
+  },
+  {
+    "name": "学习",
+    "links": [
+      {
+        "name": "Coursera",
+        "url": "https://www.coursera.org"
+      },
+      {
+        "name": "edX",
+        "url": "https://www.edx.org"
+      },
+      {
+        "name": "Khan Academy",
+        "url": "https://www.khanacademy.org"
+      },
+      {
+        "name": "freeCodeCamp",
+        "url": "https://www.freecodecamp.org"
+      },
+      {
+        "name": "LeetCode",
+        "url": "https://leetcode.cn"
+      },
+      {
+        "name": "中国大学 MOOC",
+        "url": "https://www.icourse163.org"
+      },
+      {
+        "name": "MIT OpenCourseWare",
+        "url": "https://ocw.mit.edu"
+      },
+      {
+        "name": "Google Scholar",
+        "url": "https://scholar.google.com"
+      },
+      {
+        "name": "arXiv",
+        "url": "https://arxiv.org"
+      },
+      {
+        "name": "Hugging Face",
+        "url": "https://huggingface.co"
+      },
+      {
+        "name": "Kaggle",
+        "url": "https://www.kaggle.com"
+      },
+      {
+        "name": "Python 文档",
+        "url": "https://docs.python.org"
+      }
     ]
   }
 ]

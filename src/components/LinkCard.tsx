@@ -19,6 +19,5 @@ export default function LinkCard({ link, index }: { link: Bookmark; index: numbe
 export function Favicon({ link }: { link: Bookmark }) {
   const [iconState, setIconState] = useState<'loading' | 'loaded' | 'failed'>('loading')
   const url = new URL(link.url)
-  const hue = [...url.hostname].reduce((sum, char) => sum + char.charCodeAt(0), 0) % 360
-  return <span className="favicon" style={{ '--icon-hue': hue } as CSSProperties} aria-hidden="true"><span>{[...link.name][0]?.toUpperCase()}</span>{iconState !== 'failed' && <img src={`${url.origin}/favicon.ico`} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: iconState === 'loaded' ? 1 : 0 }} onLoad={() => setIconState('loaded')} onError={() => setIconState('failed')} />}</span>
+  return <span className="favicon" aria-hidden="true"><span>{[...link.name][0]?.toUpperCase()}</span>{iconState !== 'failed' && <img src={`${url.origin}/favicon.ico`} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: iconState === 'loaded' ? 1 : 0 }} onLoad={() => setIconState('loaded')} onError={() => setIconState('failed')} />}</span>
 }
