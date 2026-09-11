@@ -109,7 +109,7 @@ h2 > svg { color: var(--muted-foreground); }
   .bookmark-card:hover { transform: none; }
 }
 
-.bookmark-results { position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 20; margin: 0; padding: 6px; list-style: none; text-align: left; background: var(--popover); border: 1px solid var(--border); border-radius: 18px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 12px 36px var(--shadow); }
+.bookmark-results { overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 20; margin: 0; padding: 6px; list-style: none; text-align: left; background: var(--popover); border: 1px solid var(--border); border-radius: 18px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 12px 36px var(--shadow); }
 .bookmark-result { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
 .bookmark-result:hover, .bookmark-result[aria-selected="true"] { background: var(--accent); }
 .result-name { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -124,3 +124,15 @@ h2 > svg { color: var(--muted-foreground); }
 .theme-switch { position: absolute; top: 16px; right: 20px; z-index: 30; color: var(--muted-foreground); }
 .theme-switch > button { width: 40px; height: 40px; border-radius: 50%; }
 .theme-option { min-height: 40px; cursor: pointer; }
+
+.particle-background { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+.particle-background span { position: absolute; width: var(--size); height: var(--size); border-radius: 50%; background: var(--foreground); opacity: .12; animation: particle-drift var(--duration) ease-in-out var(--delay) infinite alternate; }
+@keyframes particle-drift {
+  from { transform: translate3d(0, 16px, 0); opacity: .08; }
+  to { transform: translate3d(var(--drift), -32px, 0); opacity: .22; }
+}
+@media (max-width: 599px) {
+  .particle-background span:nth-child(n + 17) { display: none; }
+}
+
+.bookmark-results::-webkit-scrollbar { display: none; }

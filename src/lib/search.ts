@@ -15,8 +15,8 @@ export function searchDestination(input: string, engine: Engine): string | null 
   if (!text) return null
   const explicit = /^https?:\/\//i.test(text)
   const local = /^(localhost|(?:\d{1,3}\.){3}\d{1,3}|\[[\da-f:]+\])(?::\d+)?(?:[/?#]|$)/i.test(text)
-  // A port on a bare hostname is not a URL scheme.
-  if (!explicit && !local && /^[a-z][a-z\d+.-]*:/i.test(text) && !/^[^:/]+:\d+(?:[/?#]|$)/.test(text)) {
+  // Reject non-web URLs without treating search operators (site:, filetype:) as schemes.
+  if (!explicit && /^(?:(?:javascript|data|file|vbscript|mailto|tel|about|blob):|[a-z][a-z\d+.-]*:\/\/)/i.test(text)) {
     throw new Error('只支持 http:// 或 https:// 网址，请修改后重试。')
   }
   if (!/\s/.test(text)) {

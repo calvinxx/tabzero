@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react'
 import { ArrowRight, Check, ChevronDown, Search } from 'lucide-react'
 import { useReducedMotion } from 'motion/react'
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,36 @@ export default function SearchBox() {
   const matches = matchBookmarks(bookmarks, query)
   const expanded = suggesting && matches.length > 0
   const input = useRef<HTMLInputElement>(null)
+  const results = useRef<HTMLUListElement>(null)
   const reduced = useReducedMotion()
+  useLayoutEffect(() => {
+    const list = results.current
+    if (!expanded || !list) return
+    const update = () => {
+      const viewport = window.visualViewport
+      const bottom = viewport ? viewport.offsetTop + viewport.height : window.innerHeight
+      list.style.maxHeight = `${Math.max(0, bottom - list.getBoundingClientRect().top - 12)}px`
+      const selected = list.children.item(active) as HTMLElement | null
+      if (selected) {
+        if (selected.offsetTop < list.scrollTop) list.scrollTop = selected.offsetTop
+        else if (selected.offsetTop + selected.offsetHeight > list.scrollTop + list.clientHeight) {
+          list.scrollTop = selected.offsetTop + selected.offsetHeight - list.clientHeight
+        }
+      }
+    }
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(list.parentElement!)
+    window.addEventListener('resize', update)
+    window.visualViewport?.addEventListener('resize', update)
+    window.visualViewport?.addEventListener('scroll', update)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', update)
+      window.visualViewport?.removeEventListener('resize', update)
+      window.visualViewport?.removeEventListener('scroll', update)
+    }
+  }, [expanded, active])
   useEffect(() => {
     function focusSearch(event: KeyboardEvent) {
       const target = event.target
@@ -81,7 +110,7 @@ export default function SearchBox() {
       </Magnet>
       <Button className="search-submit" type="submit" size="icon" aria-label="搜索或前往网址"><ArrowRight size={20} /></Button>
     </form>
-    {expanded && <ul id="bookmark-results" role="listbox" aria-label="匹配书签" className="bookmark-results">
+    {expanded && <ul ref={results} id="bookmark-results" role="listbox" aria-label="匹配书签" className="bookmark-results">
       {matches.map((link, index) => <li key={`${link.group}:${link.url}`} id={`bookmark-result-${index}`} role="option" aria-selected={active === index}
         className="bookmark-result" onPointerDown={event => event.preventDefault()}
         onClick={() => { window.open(link.url, '_blank', 'noopener,noreferrer'); setSuggesting(false); setActive(-1) }}>

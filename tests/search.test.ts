@@ -15,11 +15,11 @@ test('网址识别、搜索编码和协议安全', () => {
   ]) assert.equal(searchDestination(query, 'google'), expected)
   for (const key of Object.keys(engines)) {
     assert.ok(isEngine(key))
-    for (const query of ['React 19.2', '3.14', '你好 & 世界', 'foo', 'example..com', 'a@b.com']) {
+    for (const query of ['site:github.com react', 'filetype:pdf', 'intitle:react', 'foo:bar', 'React 19.2', '3.14', '你好 & 世界', 'foo', 'example..com', 'a@b.com']) {
       assert.equal(searchDestination(query, key), engines[key].url + encodeURIComponent(query))
     }
   }
-  for (const query of ['javascript:alert(1)', 'data:text/html,test', 'file:///tmp/a', 'ftp://example.com', 'https://', 'https://user:pass@example.com', 'https://exa mple.com']) {
+  for (const query of ['javascript:alert(1)', 'data:text/html,test', 'file:///tmp/a', 'ftp://example.com', 'mailto:test@example.com', 'vbscript:msgbox(1)', 'https://', 'https://user:pass@example.com', 'https://exa mple.com']) {
     assert.throws(() => searchDestination(query, 'google'))
   }
   assert.equal(searchDestination('  ', 'google'), null)

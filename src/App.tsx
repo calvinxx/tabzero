@@ -2,12 +2,14 @@ import { MotionConfig } from 'motion/react'
 import SearchBox from '@/components/SearchBox'
 import DateTime from '@/components/DateTime'
 import ThemeSwitch from '@/components/ThemeSwitch'
+import ParticleBackground from '@/components/ParticleBackground'
 import GroupSection, { type BookmarkGroup } from '@/components/GroupSection'
 import bookmarks from '@/bookmarks.json'
 const groups: BookmarkGroup[] = bookmarks
 
 export default function App() {
   return <MotionConfig reducedMotion="user">
+    <ParticleBackground />
     <div className="page">
       <ThemeSwitch />
       <main id="main">
