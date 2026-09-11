@@ -1,0 +1,35 @@
+[
+  {
+    "name": "常用",
+    "links": [
+      { "name": "GitHub", "url": "https://github.com" },
+      { "name": "Gmail", "url": "https://mail.google.com" },
+      { "name": "Notion", "url": "https://www.notion.so" },
+      { "name": "ChatGPT", "url": "https://chatgpt.com" },
+      { "name": "Figma", "url": "https://www.figma.com" },
+      { "name": "Google 翻译", "url": "https://translate.google.com" }
+    ]
+  },
+  {
+    "name": "开发",
+    "links": [
+      { "name": "MDN", "url": "https://developer.mozilla.org" },
+      { "name": "React", "url": "https://react.dev" },
+      { "name": "Stack Overflow", "url": "https://stackoverflow.com" },
+      { "name": "Vercel", "url": "https://vercel.com" },
+      { "name": "npm", "url": "https://www.npmjs.com" },
+      { "name": "掘金", "url": "https://juejin.cn" }
+    ]
+  },
+  {
+    "name": "娱乐",
+    "links": [
+      { "name": "哔哩哔哩", "url": "https://www.bilibili.com" },
+      { "name": "YouTube", "url": "https://www.youtube.com" },
+      { "name": "豆瓣", "url": "https://www.douban.com" },
+      { "name": "Spotify", "url": "https://open.spotify.com" },
+      { "name": "少数派", "url": "https://sspai.com" },
+      { "name": "Wikipedia", "url": "https://www.wikipedia.org" }
+    ]
+  }
+]
