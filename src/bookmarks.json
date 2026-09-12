@@ -98,7 +98,7 @@
     ]
   },
   {
-    "name": "infra",
+    "name": "基础设施",
     "links": [
       {
         "name": "Cloudflare",
@@ -126,8 +126,17 @@
         "icon": "https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico"
       },
       {
+        "name": "Free Supabase",
+        "url": "https://gpdbnext.console.aliyun.com/gpdb/cn-shenzhen/supabase?accounttraceid=74a092f551804e0984bfa87b886d6513irbq",
+        "icon": "https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico"
+      },
+      {
         "name": "DigitalOcean",
         "url": "https://cloud.digitalocean.com"
+      },
+      {
+        "name": "Supabase",
+        "url": "https://supabase.com/"
       },
       {
         "name": "Resend",
@@ -136,6 +145,60 @@
       {
         "name": "Digital Platform",
         "url": "https://dashboard.digitalplat.org/dashboard"
+      },
+      {
+        "name": "一分机场",
+        "url": "https://xn--4gqx1hgtfdmt.com/#/dashboard"
+      },
+      {
+        "name": "三毛机场",
+        "url": "https://a.smjcgw.com/#/dashboard"
+      }
+    ]
+  },
+  {
+    "name": "开发资源",
+    "links": [
+      {
+        "name": "Free for Dev",
+        "url": "https://free-for.dev/#/"
+      },
+      {
+        "name": "Skills.sh",
+        "url": "https://www.skills.sh/"
+      },
+      {
+        "name": "SkillsMP",
+        "url": "https://skillsmp.com/"
+      },
+      {
+        "name": "渡渡鸟镜像",
+        "url": "https://docker.aityp.com/"
+      },
+      {
+        "name": "异常教程",
+        "url": "https://www.exception.site/"
+      }
+    ]
+  },
+  {
+    "name": "工具",
+    "links": [
+      {
+        "name": "2925",
+        "url": "https://2925.com/#/setting/accountset/manage"
+      },
+      {
+        "name": "SMS-Man",
+        "url": "https://sms-man.com/cn"
+      },
+      {
+        "name": "Squoosh",
+        "url": "https://squoosh.app/"
+      },
+      {
+        "name": "TradingView",
+        "url": "https://cn.tradingview.com/"
       }
     ]
   },
@@ -242,6 +305,78 @@
       {
         "name": "Framer",
         "url": "https://www.framer.com"
+      },
+      {
+        "name": "Koboyo Icons",
+        "url": "https://koboyo.com/icons"
+      },
+      {
+        "name": "Icons8",
+        "url": "https://icons8.com/icons"
+      },
+      {
+        "name": "Generative Loaders",
+        "url": "https://generativeloaders.com/"
+      },
+      {
+        "name": "BEUI",
+        "url": "https://beui.dev/"
+      },
+      {
+        "name": "Beautiful UI",
+        "url": "https://www.beautifului.dev/"
+      },
+      {
+        "name": "Name That UI",
+        "url": "https://namethatui.com/"
+      },
+      {
+        "name": "Component Gallery",
+        "url": "https://component.gallery/"
+      },
+      {
+        "name": "Impeccable",
+        "url": "https://impeccable.style/#visual-mode"
+      },
+      {
+        "name": "Spline",
+        "url": "https://spline.design/"
+      },
+      {
+        "name": "Get Design MD",
+        "url": "https://getdesign.md/"
+      },
+      {
+        "name": "Astryx",
+        "url": "https://astryx.atmeta.com/components"
+      },
+      {
+        "name": "Animate UI",
+        "url": "https://animate-ui.com/"
+      },
+      {
+        "name": "Aceternity UI",
+        "url": "https://ui.aceternity.com/"
+      },
+      {
+        "name": "tweakcn",
+        "url": "https://tweakcn.com/"
+      },
+      {
+        "name": "GSAP",
+        "url": "https://gsap.com/"
+      },
+      {
+        "name": "Lucide Animated",
+        "url": "https://lucide-animated.com/"
+      },
+      {
+        "name": "TanStack",
+        "url": "https://tanstack.com/"
+      },
+      {
+        "name": "21st.dev",
+        "url": "https://21st.dev/community/components"
       }
     ]
   },
@@ -328,6 +463,15 @@
       {
         "name": "Commandcode",
         "url": "https://commandcode.ai/zh"
+      }
+    ]
+  },
+  {
+    "name": "社区",
+    "links": [
+      {
+        "name": "OpenTools",
+        "url": "https://opentools.ai/top-ai-tools"
       }
     ]
   }
