@@ -64,10 +64,6 @@
         "url": "https://vercel.com"
       },
       {
-        "name": "Cloudflare",
-        "url": "https://dash.cloudflare.com"
-      },
-      {
         "name": "npm",
         "url": "https://www.npmjs.com"
       },
@@ -98,6 +94,47 @@
       {
         "name": "Docker Hub",
         "url": "https://hub.docker.com"
+      }
+    ]
+  },
+  {
+    "name": "infra",
+    "links": [
+      {
+        "name": "Cloudflare",
+        "url": "https://dash.cloudflare.com"
+      },
+      {
+        "name": "AWS",
+        "url": "https://aws.amazon.com/console/"
+      },
+      {
+        "name": "Google Cloud",
+        "url": "https://console.cloud.google.com"
+      },
+      {
+        "name": "Azure",
+        "url": "https://portal.azure.com"
+      },
+      {
+        "name": "腾讯云",
+        "url": "https://cloud.tencent.com"
+      },
+      {
+        "name": "阿里云",
+        "url": "https://www.aliyun.com"
+      },
+      {
+        "name": "DigitalOcean",
+        "url": "https://cloud.digitalocean.com"
+      },
+      {
+        "name": "Resend",
+        "url": "https://resend.com/"
+      },
+      {
+        "name": "Digital Platform",
+        "url": "https://dashboard.digitalplat.org/dashboard"
       }
     ]
   },
