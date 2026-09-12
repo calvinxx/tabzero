@@ -18,7 +18,15 @@ export default function LinkCard({ link, index }: { link: Bookmark; index: numbe
 }
 
 export function Favicon({ link }: { link: Bookmark }) {
-  const [iconState, setIconState] = useState<'loading' | 'loaded' | 'failed'>('loading')
+  const [index, setIndex] = useState(0)
+  const [loaded, setLoaded] = useState(false)
   const url = new URL(link.url)
-  return <span className="favicon" aria-hidden="true"><span>{[...link.name][0]?.toUpperCase()}</span>{iconState !== 'failed' && <img src={`${url.origin}/favicon.ico`} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: iconState === 'loaded' ? 1 : 0 }} onLoad={() => setIconState('loaded')} onError={() => setIconState('failed')} />}</span>
+  // High-res first, classic .ico next, Google's cache as a bonus level, letter tile as last resort.
+  const candidates = [
+    `${url.origin}/apple-touch-icon.png`,
+    `${url.origin}/favicon.ico`,
+    `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=128`,
+  ]
+  const failed = index >= candidates.length
+  return <span className="favicon" aria-hidden="true"><span style={{ opacity: loaded ? 0 : 1 }}>{[...link.name][0]?.toUpperCase()}</span>{!failed && <img src={candidates[index]} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: loaded ? 1 : 0 }} onLoad={() => setLoaded(true)} onError={() => setIndex(i => i + 1)} />}</span>
 }

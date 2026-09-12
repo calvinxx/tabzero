@@ -95,6 +95,7 @@ h2 > svg { color: currentColor; }
 .bookmark-card { height: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card-fill); box-shadow: var(--card-shadow); transition: transform .18s ease, border-color .2s, background .2s, box-shadow .2s; }
 .bookmark-link { height: 100%; min-height: 100px; position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 16px; gap: 12px; border-radius: inherit; }
 .favicon { width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center; position: relative; border: 1px solid var(--border); border-radius: 6px; background: color-mix(in srgb, var(--foreground) 4%, transparent); color: var(--foreground); font-weight: 600; font-size: 14px; transition: background .2s, border-color .2s; }
+.favicon > span { transition: opacity .2s; }
 .favicon img { position: absolute; object-fit: contain; background: inherit; transition: opacity .25s ease; }
 .bookmark-text { min-width: 0; max-width: 100%; }
 .bookmark-name { display: block; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
