@@ -2,7 +2,7 @@ import { useState, type CSSProperties } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { recordVisit } from '@/lib/recent'
-export interface Bookmark { name: string; url: string }
+export interface Bookmark { name: string; url: string; icon?: string }
 
 export default function LinkCard({ link, index }: { link: Bookmark; index: number }) {
   const url = new URL(link.url)
@@ -21,8 +21,10 @@ export function Favicon({ link }: { link: Bookmark }) {
   const [index, setIndex] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const url = new URL(link.url)
-  // High-res first, classic .ico next, Google's cache as a bonus level, letter tile as last resort.
+  // Optional pinned icon first (for sites serving broken favicons), then
+  // high-res apple-touch-icon, classic .ico, Google's cache, letter tile last.
   const candidates = [
+    ...link.icon ? [link.icon] : [],
     `${url.origin}/apple-touch-icon.png`,
     `${url.origin}/favicon.ico`,
     `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=128`,

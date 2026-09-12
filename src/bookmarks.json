@@ -122,7 +122,8 @@
       },
       {
         "name": "阿里云",
-        "url": "https://www.aliyun.com"
+        "url": "https://www.aliyun.com",
+        "icon": "https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico"
       },
       {
         "name": "DigitalOcean",

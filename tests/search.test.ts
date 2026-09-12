@@ -53,6 +53,10 @@ test('书签配置可发布：有效名称、HTTP(S) 网址、无重复 key', ()
       assert.equal(typeof link.url, 'string')
       const url = new URL(link.url)
       assert.ok(['http:', 'https:'].includes(url.protocol) && !url.username && !url.password)
+      if (link.icon !== undefined) {
+        assert.equal(typeof link.icon, 'string')
+        assert.ok(['http:', 'https:'].includes(new URL(link.icon).protocol), 'icon 必须是 HTTP(S) 网址')
+      }
       assert.ok(!urls.has(link.url), '同组网址不可重复')
       urls.add(link.url)
     }

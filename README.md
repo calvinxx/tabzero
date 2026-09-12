@@ -21,7 +21,7 @@ npm run dev
 [{ "name": "常用", "links": [{ "name": "GitHub", "url": "https://github.com" }] }]
 ```
 
-分组名需唯一，同组 URL 不可重复，名称不可为空，网址必须包含 `http://` 或 `https://`。提交前运行 `npm test`。书签构建时打包，无运行时数据请求；favicon 直接请求目标站点的 `/favicon.ico`，失败自动显示首字母。公开仓库及公开部署中的书签均可被他人查看。
+分组名需唯一，同组 URL 不可重复，名称不可为空，网址必须包含 `http://` 或 `https://`。提交前运行 `npm test`。书签构建时打包，无运行时数据请求；图标依次尝试 `apple-touch-icon.png`、`/favicon.ico`、Google 图标缓存，失败显示首字母；目标站 favicon 损坏时可在链接上加可选 `icon` 字段指定图标网址。公开仓库及公开部署中的书签均可被他人查看。
 
 ## 使用
 
