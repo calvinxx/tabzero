@@ -21,6 +21,10 @@ export function Favicon({ link }: { link: Bookmark }) {
   const [index, setIndex] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const url = new URL(link.url)
+  // Deterministic per-site hue so fallback letter tiles stay distinguishable.
+  let hash = 5381
+  for (const ch of url.hostname) hash = (hash * 33 ^ ch.charCodeAt(0)) >>> 0
+  const tileStyle = { '--tile-hue': hash % 360 } as CSSProperties
   // Optional pinned icon first (for sites serving broken favicons), then
   // high-res apple-touch-icon, classic .ico, Google's cache, letter tile last.
   const candidates = [
@@ -30,5 +34,5 @@ export function Favicon({ link }: { link: Bookmark }) {
     `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=128`,
   ]
   const failed = index >= candidates.length
-  return <span className="favicon" aria-hidden="true"><span style={{ opacity: loaded ? 0 : 1 }}>{[...link.name][0]?.toUpperCase()}</span>{!failed && <img src={candidates[index]} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: loaded ? 1 : 0 }} onLoad={() => setLoaded(true)} onError={() => setIndex(i => i + 1)} />}</span>
+  return <span className="favicon" style={tileStyle} aria-hidden="true"><span style={{ opacity: loaded ? 0 : 1 }}>{[...link.name][0]?.toUpperCase()}</span>{!failed && <img src={candidates[index]} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: loaded ? 1 : 0 }} onLoad={() => setLoaded(true)} onError={() => setIndex(i => i + 1)} />}</span>
 }
