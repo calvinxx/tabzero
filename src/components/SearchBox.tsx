@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import Magnet from '@/components/effects/Magnet'
 import { engines, isEngine, matchBookmarks, searchDestination, storageKey, type Engine } from '@/lib/search'
+import { recentUrls, recordVisit } from '@/lib/recent'
 
 import bookmarks from '@/bookmarks.json'
 import { Favicon } from '@/components/LinkCard'
@@ -19,7 +20,11 @@ export default function SearchBox() {
   const [query, setQuery] = useState('')
   const [suggesting, setSuggesting] = useState(false)
   const [active, setActive] = useState(-1)
-  const matches = matchBookmarks(bookmarks, query)
+  const matches = query.trim()
+    ? matchBookmarks(bookmarks, query)
+    : recentUrls()
+        .map(url => bookmarks.flatMap(group => group.links.map(link => ({ ...link, group: group.name }))).find(link => link.url === url))
+        .filter(link => link !== undefined)
   const expanded = suggesting && matches.length > 0
   const input = useRef<HTMLInputElement>(null)
   const results = useRef<HTMLUListElement>(null)
@@ -63,6 +68,21 @@ export default function SearchBox() {
     document.addEventListener('keydown', focusSearch)
     return () => document.removeEventListener('keydown', focusSearch)
   }, [])
+  useEffect(() => {
+    function digitJump(event: KeyboardEvent) {
+      if (query.trim() || event.ctrlKey || event.metaKey || event.altKey || event.isComposing || event.defaultPrevented) return
+      const target = event.target
+      if (target instanceof HTMLElement && (target.closest('input, textarea, select, [role="menu"]') || target.isContentEditable)) return
+      if (!/^[1-9]$/.test(event.key)) return
+      const link = bookmarks[0]?.links[Number(event.key) - 1]
+      if (!link) return
+      event.preventDefault()
+      recordVisit(link.url)
+      window.open(link.url, '_blank', 'noopener,noreferrer')
+    }
+    document.addEventListener('keydown', digitJump)
+    return () => document.removeEventListener('keydown', digitJump)
+  }, [query])
   function selectEngine(value: Engine) {
     setEngine(value)
     try { localStorage.setItem(storageKey, value) } catch { /* Search stays usable when storage is disabled. */ }
@@ -70,8 +90,10 @@ export default function SearchBox() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     try {
-      const destination = expanded && active >= 0 ? matches[active]?.url : searchDestination(query, engine)
+      const chosen = expanded && active >= 0 ? matches[active] : undefined
+      const destination = chosen?.url ?? searchDestination(query, engine)
       if (destination) window.open(destination, '_blank', 'noopener,noreferrer')
+      if (chosen) recordVisit(chosen.url)
       setSuggesting(false)
       setActive(-1)
     } catch (cause) { setError((cause as Error).message); input.current?.focus() }
@@ -98,7 +120,7 @@ export default function SearchBox() {
             setActive(event.key === 'ArrowDown' ? (active + 1) % matches.length : active <= 0 ? matches.length - 1 : active - 1)
           }
         }} />
-      <Magnet padding={8} magnetStrength={12} disabled={Boolean(reduced)} wrapperClassName="engine-wrap">
+      <Magnet padding={48} magnetStrength={5} disabled={Boolean(reduced)} wrapperClassName="engine-wrap">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button type="button" variant="ghost" className="engine-button" aria-label={`搜索引擎：${engines[engine].name}`}><span className="engine-mark" aria-hidden="true">{engines[engine].mark}</span><span className="engine-name">{engines[engine].name}</span><ChevronDown size={14} /></Button>
@@ -110,10 +132,10 @@ export default function SearchBox() {
       </Magnet>
       <Button className="search-submit" type="submit" size="icon" aria-label="搜索或前往网址"><ArrowRight size={20} /></Button>
     </form>
-    {expanded && <ul ref={results} id="bookmark-results" role="listbox" aria-label="匹配书签" className="bookmark-results">
+    {expanded && <ul ref={results} id="bookmark-results" role="listbox" aria-label={query.trim() ? '匹配书签' : '最近访问'} className="bookmark-results">
       {matches.map((link, index) => <li key={`${link.group}:${link.url}`} id={`bookmark-result-${index}`} role="option" aria-selected={active === index}
         className="bookmark-result" onPointerDown={event => event.preventDefault()}
-        onClick={() => { window.open(link.url, '_blank', 'noopener,noreferrer'); setSuggesting(false); setActive(-1) }}>
+        onClick={() => { recordVisit(link.url); window.open(link.url, '_blank', 'noopener,noreferrer'); setSuggesting(false); setActive(-1) }}>
         <Favicon link={link} /><span className="result-name">{link.name}</span><span className="result-group">{link.group}</span>
       </li>)}
     </ul>}

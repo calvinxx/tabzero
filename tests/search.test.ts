@@ -26,6 +26,17 @@ test('网址识别、搜索编码和协议安全', () => {
   for (const key of [null, 'bad', 'constructor', '__proto__']) assert.equal(isEngine(key), false)
 })
 
+test('bang 前缀直达站点搜索，未知前缀回落普通搜索', () => {
+  assert.equal(searchDestination('!gh react hooks', 'google'), 'https://github.com/search?q=react%20hooks')
+  assert.equal(searchDestination('!GH vite', 'baidu'), 'https://github.com/search?q=vite')
+  assert.equal(searchDestination('!mdn fetch', 'google'), 'https://developer.mozilla.org/zh-CN/search?q=fetch')
+  assert.equal(searchDestination('!npm typescript', 'bing'), 'https://www.npmjs.com/search?q=typescript')
+  for (const key of Object.keys(engines)) {
+    assert.equal(searchDestination('!unknown foo', key as keyof typeof engines), engines[key as keyof typeof engines].url + encodeURIComponent('!unknown foo'))
+    assert.equal(searchDestination('!gh', key as keyof typeof engines), engines[key as keyof typeof engines].url + encodeURIComponent('!gh'))
+  }
+})
+
 test('书签配置可发布：有效名称、HTTP(S) 网址、无重复 key', () => {
   const groups = JSON.parse(readFileSync(new URL('../src/bookmarks.json', import.meta.url), 'utf8'))
   assert.ok(Array.isArray(groups))

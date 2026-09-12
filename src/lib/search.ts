@@ -10,9 +10,22 @@ export function isEngine(value: unknown): value is Engine {
   return typeof value === 'string' && Object.hasOwn(engines, value)
 }
 
+export const bangs = {
+  gh: { name: 'GitHub', url: 'https://github.com/search?q=' },
+  npm: { name: 'npm', url: 'https://www.npmjs.com/search?q=' },
+  mdn: { name: 'MDN', url: 'https://developer.mozilla.org/zh-CN/search?q=' },
+  so: { name: 'Stack Overflow', url: 'https://stackoverflow.com/search?q=' },
+  yt: { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=' },
+  wiki: { name: '维基百科', url: 'https://zh.wikipedia.org/w/index.php?search=' },
+} as const
+
 export function searchDestination(input: string, engine: Engine): string | null {
   const text = input.trim()
   if (!text) return null
+  const bang = /^!(\w+)\s+(.+)$/.exec(text)
+  if (bang && Object.hasOwn(bangs, bang[1].toLowerCase())) {
+    return bangs[bang[1].toLowerCase() as keyof typeof bangs].url + encodeURIComponent(bang[2].trim())
+  }
   const explicit = /^https?:\/\//i.test(text)
   const local = /^(localhost|(?:\d{1,3}\.){3}\d{1,3}|\[[\da-f:]+\])(?::\d+)?(?:[/?#]|$)/i.test(text)
   // Reject non-web URLs without treating search operators (site:, filetype:) as schemes.
