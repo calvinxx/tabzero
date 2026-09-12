@@ -259,5 +259,38 @@
         "url": "https://docs.python.org"
       }
     ]
+  },
+  {
+    "name": "tokens",
+    "links": [
+      {
+        "name": "Kimi Code",
+        "url": "https://www.kimi.com/code/console"
+      },
+      {
+        "name": "BigModel",
+        "url": "https://bigmodel.cn/coding-plan/personal/usage"
+      },
+      {
+        "name": "Opencode",
+        "url": "https://opencode.ai/workspace"
+      },
+      {
+        "name": "Deepseek",
+        "url": "https://platform.deepseek.com/usage"
+      },
+      {
+        "name": "世事宜AI",
+        "url": "https://ssyai.xytpark.cn/purchase"
+      },
+      {
+        "name": "OpenRouter",
+        "url": "https://openrouter.ai/"
+      },
+      {
+        "name": "Commandcode",
+        "url": "https://commandcode.ai/zh"
+      }
+    ]
   }
 ]
