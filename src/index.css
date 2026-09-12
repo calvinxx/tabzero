@@ -42,7 +42,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--ring); outline-
 main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .intro { flex-shrink: 0; padding: clamp(24px, 6vh, 80px) 0 32px; text-align: center; }
 .date-time { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 28px; }
-.date-time-clock { font-family: ui-monospace, "SFMono-Regular", monospace; font-size: clamp(40px, 5vw, 60px); font-weight: 900; line-height: 1.2; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
+.date-time-clock { display: flex; align-items: center; gap: 8px; perspective: 600px; font-family: ui-monospace, "SFMono-Regular", monospace; font-size: clamp(40px, 5vw, 60px); font-weight: 900; line-height: 1; }
+.flip-digit { display: grid; place-items: center; width: 1.5ch; padding: .12em 0; border: 2px solid var(--border); background: var(--card); color: var(--card-foreground); box-shadow: 4px 4px 0 var(--shadow); transform-origin: center top; animation: flip-in .28s ease-out; backface-visibility: hidden; }
+.flip-sep { color: var(--foreground); transform: translateY(-.05em); }
+@keyframes flip-in { from { transform: rotateX(-88deg); } to { transform: rotateX(0deg); } }
 .date-time-date { padding: 4px 12px; border: 2px solid var(--border); background: var(--tag); color: #191919; font-size: 12px; font-weight: 700; box-shadow: 3px 3px 0 var(--shadow); transform: rotate(-2deg); }
 .search-area { position: relative; z-index: 1; max-width: 720px; margin: auto; }
 .date-time, .bookmarks { transition: filter .18s ease, opacity .18s ease; }
@@ -64,18 +67,18 @@ main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .bookmarks { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; overscroll-behavior-y: contain; padding: 4px 10px 32px 4px; margin-bottom: max(clamp(16px, 3dvh, 32px), env(safe-area-inset-bottom)); }
 .bookmarks::-webkit-scrollbar { display: none; }
 .bookmarks:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
-.bookmark-group { margin-bottom: 30px; }
+.bookmark-group { --group-color: var(--tag); margin-bottom: 30px; }
+.bookmark-group:nth-child(3n + 2) { --group-color: var(--tag-alt); }
+.bookmark-group:nth-child(3n) { --group-color: var(--tag-third); }
 .group-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-h2 { display: flex; align-items: center; gap: 8px; margin: 0; padding: 5px 10px; border: 2px solid #191919; background: var(--tag); color: #191919; font-size: 13px; font-weight: 800; letter-spacing: .5px; }
+h2 { display: flex; align-items: center; gap: 8px; margin: 0; padding: 5px 10px; border: 2px solid #191919; background: var(--group-color); color: #191919; font-size: 13px; font-weight: 800; letter-spacing: .5px; }
 h2 > svg { color: currentColor; }
-.bookmark-group:nth-child(3n + 2) h2 { background: var(--tag-alt); }
-.bookmark-group:nth-child(3n) h2 { background: var(--tag-third); }
 .group-count { font: 11px ui-monospace, monospace; color: var(--muted-foreground); }
 .bookmark-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
 .bookmark-item { min-width: 0; animation: appear .35s both; animation-delay: var(--entry-delay); }
-.bookmark-card { height: 100%; border: 2px solid var(--border); border-radius: 0; box-shadow: 4px 4px 0 var(--shadow); transition: transform .2s, box-shadow .2s, background .2s; }
+.bookmark-card { height: 100%; border: 2px solid var(--border); border-radius: 0; box-shadow: 4px 4px 0 var(--shadow); transition: transform .12s ease-out, box-shadow .12s ease-out, background .2s; }
 .bookmark-link { height: 100%; min-height: 100px; position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 16px; gap: 12px; border-radius: inherit; }
-.favicon { width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center; position: relative; border: 1px solid var(--border); border-radius: 0; background: var(--muted); color: var(--foreground); font-weight: 650; font-size: 15px; }
+.favicon { width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center; position: relative; border: 1px solid var(--border); border-radius: 0; background: var(--muted); color: var(--foreground); font-weight: 650; font-size: 15px; transition: background .2s; }
 .favicon img { position: absolute; object-fit: contain; background: inherit; }
 .bookmark-text { min-width: 0; max-width: 100%; }
 .bookmark-name { display: block; font-size: 13px; font-weight: 750; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -83,8 +86,10 @@ h2 > svg { color: currentColor; }
 .bookmark-arrow { position: absolute; right: 12px; top: 14px; color: var(--muted-foreground); opacity: 0; transition: opacity .2s; }
 .bookmark-link:focus-visible .bookmark-arrow { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .bookmark-card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--shadow); }
+  .bookmark-card:hover, .bookmark-card:focus-within { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--group-color, var(--shadow)); }
+  .bookmark-card:hover .favicon, .bookmark-card:focus-within .favicon { background: var(--group-color, var(--muted)); }
   .bookmark-card:hover .bookmark-arrow { opacity: 1; }
+  .bookmark-card:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--shadow); transition-duration: 0s; }
 }
 .empty-state { font-size: 13px; color: var(--muted-foreground); padding: 24px 0; }
 @keyframes appear { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -110,7 +115,7 @@ h2 > svg { color: currentColor; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-  .bookmark-card:hover { transform: none; }
+  .bookmark-card:hover, .bookmark-card:active { transform: none; }
 }
 
 .bookmark-results { overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 20; margin: 0; padding: 6px; list-style: none; text-align: left; background: var(--popover); border: 2px solid var(--border); border-radius: 0; box-shadow: 6px 6px 0 var(--shadow); }

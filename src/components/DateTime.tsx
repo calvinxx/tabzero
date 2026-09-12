@@ -10,8 +10,17 @@ export default function DateTime() {
     return () => window.clearInterval(timer)
   }, [])
 
+  const time = timeFormat.format(now)
+
   return <time className="date-time" dateTime={now.toISOString()}>
-    <span className="date-time-clock">{timeFormat.format(now)}</span>
+    <span className="date-time-clock">
+      <span className="sr-only">{time}</span>
+      {[...time].map((ch, i) =>
+        ch === ':'
+          ? <span key={`sep-${i}`} className="flip-sep" aria-hidden="true">:</span>
+          : <span key={`${i}-${ch}`} className="flip-digit" aria-hidden="true">{ch}</span>
+      )}
+    </span>
     <span className="date-time-date">{dateFormat.format(now)}</span>
   </time>
 }
