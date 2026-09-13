@@ -54,12 +54,12 @@ a:focus-visible, button:focus-visible { outline: 1.5px solid var(--ring); outlin
 
 .page { position: relative; max-width: 1200px; padding: 0 48px; margin: auto; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
 main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.intro { flex-shrink: 0; padding: clamp(24px, 7vh, 88px) 0 36px; text-align: center; }
+.intro { flex-shrink: 0; padding: clamp(28px, 4vh, 48px) 0 28px; text-align: center; }
 
 /* 时钟:细等宽数字,翻牌保留 */
-.date-time { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 32px; position: relative; animation: appear .5s both; }
+.date-time { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px; position: relative; animation: appear .5s both; }
 .date-time::before { content: ''; position: absolute; left: 50%; top: 42%; width: 560px; height: 300px; transform: translate(-50%, -50%); background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 7%, transparent), transparent); pointer-events: none; }
-.date-time-clock { display: flex; align-items: baseline; gap: 2px; perspective: 600px; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-variant-numeric: tabular-nums; font-size: clamp(48px, 6vw, 76px); font-weight: 300; letter-spacing: .02em; line-height: 1; }
+.date-time-clock { display: flex; align-items: baseline; gap: 2px; perspective: 600px; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-variant-numeric: tabular-nums; font-size: clamp(36px, 4vw, 56px); font-weight: 300; letter-spacing: .02em; line-height: 1; }
 .flip-digit { display: inline-block; transform-origin: center top; animation: flip-in .3s ease-out; backface-visibility: hidden; }
 .flip-sep { color: var(--muted-foreground); }
 @keyframes flip-in { from { transform: rotateX(-88deg); } to { transform: rotateX(0deg); } }
@@ -91,10 +91,10 @@ main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .group-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); animation: appear .45s both; animation-delay: calc(.16s + var(--group-offset, 0ms)); }
 h2 { margin: 0; padding: 0; color: var(--muted-foreground); font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
 .group-count { font: 11px ui-monospace, monospace; color: var(--muted-foreground); letter-spacing: .1em; }
-.bookmark-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
+.bookmark-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
 .bookmark-item { min-width: 0; animation: appear .35s both; animation-delay: calc(.22s + var(--group-offset, 0ms) + var(--entry-delay)); }
 .bookmark-card { height: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card-fill); box-shadow: var(--card-shadow); transition: transform .18s ease, border-color .2s, background .2s, box-shadow .2s; }
-.bookmark-link { height: 100%; min-height: 96px; position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 14px; gap: 10px; border-radius: inherit; }
+.bookmark-link { height: 100%; min-height: 70px; position: relative; display: flex; align-items: center; padding: 12px; gap: 10px; border-radius: inherit; }
 .favicon { width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center; position: relative; border: 1px solid hsl(var(--tile-hue, 220) 40% 88%); border-radius: 8px; background: hsl(var(--tile-hue, 220) 45% 94%); color: hsl(var(--tile-hue, 220) 48% 38%); font-weight: 600; font-size: 14px; transition: background .2s, border-color .2s; }
 :root[data-theme="dark"] .favicon { background: hsl(var(--tile-hue, 220) 26% 17%); border-color: hsl(var(--tile-hue, 220) 24% 26%); color: hsl(var(--tile-hue, 220) 62% 74%); }
 .favicon > span { transition: opacity .2s; }
@@ -102,11 +102,9 @@ h2 { margin: 0; padding: 0; color: var(--muted-foreground); font-size: 11px; fon
 .bookmark-text { min-width: 0; max-width: 100%; }
 .bookmark-name { display: block; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bookmark-domain { display: block; font-size: 11px; color: var(--muted-foreground); margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bookmark-arrow { position: absolute; right: 12px; top: 14px; color: var(--accent); opacity: 0; transition: opacity .2s; }
+.bookmark-arrow { position: absolute; right: 6px; top: 6px; color: var(--accent); opacity: 0; transition: opacity .2s; }
 .bookmark-link:focus-visible .bookmark-arrow { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .bookmark-domain { opacity: 0; transition: opacity .2s; }
-  .bookmark-card:hover .bookmark-domain, .bookmark-card:focus-within .bookmark-domain { opacity: 1; }
   .bookmark-card:hover, .bookmark-card:focus-within { transform: translateY(-2px); border-color: var(--border-strong); background: var(--card-fill-hover); box-shadow: var(--card-shadow-hover); }
   .bookmark-card:hover .bookmark-arrow, .bookmark-card:focus-within .bookmark-arrow { opacity: 1; }
   .bookmark-card:active { transform: translateY(0); transition-duration: 0s; }
@@ -133,12 +131,13 @@ h2 { margin: 0; padding: 0; color: var(--muted-foreground); font-size: 11px; fon
 @media (max-width: 1023px) {
   .page { position: relative; max-width: 850px; padding: 0 32px; }
   .bookmark-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bookmark-link { flex-direction: row; align-items: center; min-height: 82px; }
   .intro { padding-top: 36px; }
 }
 @media (max-width: 599px) {
   .page { padding: 0 20px; }
-  .intro { padding: 28px 0 40px; }
+  .intro { padding: 28px 0 24px; }
+  .date-time-clock { font-size: clamp(32px, 9vw, 36px); }
+  .date-time { gap: 8px; margin-bottom: 20px; }
   .search-shell { padding: 8px; gap: 4px; }
   .search-icon { display: none; }
   .search-input { padding-left: 8px; font-size: 16px; }
@@ -146,14 +145,14 @@ h2 { margin: 0; padding: 0; color: var(--muted-foreground); font-size: 11px; fon
   .engine-button { padding: 0 8px; gap: 4px; }
   .search-submit { width: 36px; height: 36px; }
   .bookmark-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .bookmark-link { padding: 12px; gap: 9px; }
-  .bookmark-name { font-size: 11px; }
-  .bookmark-arrow { display: none; }
+  .bookmark-link { min-height: 64px; padding: 10px; gap: 9px; }
+  .bookmark-name { font-size: 12px; }
+  .bookmark-arrow, .bookmark-domain { display: none; }
 }
 @media (max-height: 600px) {
   .intro { padding: 12px 0 16px; }
   .date-time { margin-bottom: 12px; gap: 6px; }
-  .date-time-clock { font-size: 32px; }
+  .date-time-clock { font-size: 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

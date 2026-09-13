@@ -8,8 +8,8 @@ export default function LinkCard({ link, index }: { link: Bookmark; index: numbe
   const url = new URL(link.url)
   return <li className="bookmark-item" style={{ '--entry-delay': `${index * 25}ms` } as CSSProperties}>
     <Card className="bookmark-card">
-      <a href={link.url} target="_blank" rel="noopener noreferrer" className="bookmark-link" aria-label={`${link.name}（新标签页打开）`} onClick={() => recordVisit(link.url)}>
-        <Favicon link={link} />
+      <a href={link.url} target="_blank" rel="noopener noreferrer" className="bookmark-link" aria-label={`${link.name}（新标签页打开）`} onClick={() => recordVisit(link.url)} onAuxClick={event => { if (event.button === 1) recordVisit(link.url) }}>
+        <Favicon link={link} loading="lazy" />
         <span className="bookmark-text"><span className="bookmark-name">{link.name}</span><span className="bookmark-domain">{url.hostname.replace(/^www\./, '')}</span></span>
         <ArrowUpRight className="bookmark-arrow" size={15} aria-hidden="true" />
       </a>
@@ -17,7 +17,13 @@ export default function LinkCard({ link, index }: { link: Bookmark; index: numbe
   </li>
 }
 
-export function Favicon({ link }: { link: Bookmark }) {
+type FaviconProps = { link: Bookmark; loading?: 'eager' | 'lazy' }
+
+export function Favicon(props: FaviconProps) {
+  return <FaviconImage key={JSON.stringify([props.link.url, props.link.icon])} {...props} />
+}
+
+function FaviconImage({ link, loading = 'eager' }: FaviconProps) {
   const [index, setIndex] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const url = new URL(link.url)
@@ -34,5 +40,5 @@ export function Favicon({ link }: { link: Bookmark }) {
     `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=128`,
   ]
   const failed = index >= candidates.length
-  return <span className="favicon" style={tileStyle} aria-hidden="true"><span style={{ opacity: loaded ? 0 : 1 }}>{[...link.name][0]?.toUpperCase()}</span>{!failed && <img src={candidates[index]} alt="" width="23" height="23" decoding="async" referrerPolicy="no-referrer" style={{ opacity: loaded ? 1 : 0 }} onLoad={() => setLoaded(true)} onError={() => setIndex(i => i + 1)} />}</span>
+  return <span className="favicon" style={tileStyle} aria-hidden="true"><span style={{ opacity: loaded ? 0 : 1 }}>{[...link.name][0]?.toUpperCase()}</span>{!failed && <img src={candidates[index]} alt="" width="23" height="23" loading={loading} decoding="async" referrerPolicy="no-referrer" style={{ opacity: loaded ? 1 : 0 }} onLoad={() => setLoaded(true)} onError={() => setIndex(i => i + 1)} />}</span>
 }

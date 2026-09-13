@@ -1,5 +1,5 @@
 // React Bits Magnet; see THIRD_PARTY_NOTICES.md.
-import React, { useState, useEffect, useRef, type ReactNode, type HTMLAttributes } from 'react';
+import React, { useEffect, useRef, type ReactNode, type HTMLAttributes } from 'react';
 
 interface MagnetProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -23,15 +23,16 @@ const Magnet: React.FC<MagnetProps> = ({
   innerClassName = '',
   ...props
 }) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const magnetRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (disabled) {
-      setPosition({ x: 0, y: 0 });
-      return;
-    }
+    const inner = innerRef.current;
+    if (!inner) return;
+    inner.style.transform = "translate3d(0, 0, 0)";
+    inner.style.transition = disabled ? "none" : inactiveTransition;
+    if (disabled) return;
+    let isActive = false;
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!magnetRef.current) return;
@@ -44,13 +45,15 @@ const Magnet: React.FC<MagnetProps> = ({
       const distY = Math.abs(centerY - e.clientY);
 
       if (distX < width / 2 + padding && distY < height / 2 + padding) {
-        setIsActive(true);
+        if (!isActive) inner.style.transition = activeTransition;
+        isActive = true;
         const offsetX = (e.clientX - centerX) / magnetStrength;
         const offsetY = (e.clientY - centerY) / magnetStrength;
-        setPosition({ x: offsetX, y: offsetY });
-      } else {
-        setIsActive(false);
-        setPosition({ x: 0, y: 0 });
+        inner.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+      } else if (isActive) {
+        isActive = false;
+        inner.style.transition = inactiveTransition;
+        inner.style.transform = "translate3d(0, 0, 0)";
       }
     };
 
@@ -58,9 +61,7 @@ const Magnet: React.FC<MagnetProps> = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [padding, disabled, magnetStrength]);
-
-  const transitionStyle = isActive ? activeTransition : inactiveTransition;
+  }, [padding, disabled, magnetStrength, activeTransition, inactiveTransition]);
 
   return (
     <div
@@ -70,12 +71,8 @@ const Magnet: React.FC<MagnetProps> = ({
       {...props}
     >
       <div
+        ref={innerRef}
         className={innerClassName}
-        style={{
-          transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-          transition: transitionStyle,
-          willChange: 'transform'
-        }}
       >
         {children}
       </div>
