@@ -47,22 +47,23 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
-body::after { content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .09; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E"); }
+/* Galaxy sits behind the interactive page; it never captures pointer input. */
+.galaxy-background { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: .25; mask-image: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, .5), #000 80%); }
+.galaxy-background canvas { display: block; width: 100% !important; height: 100% !important; }
+:root[data-theme="dark"] .galaxy-background { opacity: .65; }
+:root[data-theme="dark"] { --card-fill: #141416; --card-fill-hover: #1c1c20; --elevated: #141416; }
 a { color: inherit; text-decoration: none; }
 button, a, input { -webkit-tap-highlight-color: transparent; }
 a:focus-visible, button:focus-visible { outline: 1.5px solid var(--ring); outline-offset: 3px; }
 
-.page { position: relative; max-width: 1200px; padding: 0 48px; margin: auto; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
+.page { position: relative; z-index: 1; max-width: 1200px; padding: 0 48px; margin: auto; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
 main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .intro { flex-shrink: 0; padding: clamp(28px, 4vh, 48px) 0 28px; text-align: center; }
 
-/* 时钟:细等宽数字,翻牌保留 */
+/* 时钟：React Bits Split Flap Text */
 .date-time { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px; position: relative; animation: appear .5s both; }
-.date-time::before { content: ''; position: absolute; left: 50%; top: 42%; width: 560px; height: 300px; transform: translate(-50%, -50%); background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 7%, transparent), transparent); pointer-events: none; }
-.date-time-clock { display: flex; align-items: baseline; gap: 2px; perspective: 600px; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-variant-numeric: tabular-nums; font-size: clamp(36px, 4vw, 56px); font-weight: 300; letter-spacing: .02em; line-height: 1; }
-.flip-digit { display: inline-block; transform-origin: center top; animation: flip-in .3s ease-out; backface-visibility: hidden; }
-.flip-sep { color: var(--muted-foreground); }
-@keyframes flip-in { from { transform: rotateX(-88deg); } to { transform: rotateX(0deg); } }
+.date-time-clock { --split-flap-tile-color: var(--card-fill); --split-flap-text-color: var(--foreground); --split-flap-radius: 6px; --split-flap-gap: .08em; --split-flap-flip-duration: .3s; display: flex; font-size: clamp(36px, 4vw, 56px); line-height: 1; }
+:root[data-theme="dark"] .date-time-clock { --split-flap-tile-color: #202024; }
 .date-time-date { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 11px; letter-spacing: .24em; color: var(--muted-foreground); }
 
 /* 搜索 */

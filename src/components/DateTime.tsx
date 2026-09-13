@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import SplitFlapText from '@/components/effects/SplitFlapText'
 
 const dateFormat = new Intl.DateTimeFormat('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' })
 const timeFormat = new Intl.DateTimeFormat('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' })
@@ -15,11 +16,7 @@ export default function DateTime() {
   return <time className="date-time" dateTime={now.toISOString()}>
     <span className="date-time-clock">
       <span className="sr-only">{time}</span>
-      {[...time].map((ch, i) =>
-        ch === ':'
-          ? <span key={`sep-${i}`} className="flip-sep" aria-hidden="true">:</span>
-          : <span key={`${i}-${ch}`} className="flip-digit" aria-hidden="true">{ch}</span>
-      )}
+      <SplitFlapText text={time} />
     </span>
     <span className="date-time-date">{dateFormat.format(now)}</span>
   </time>

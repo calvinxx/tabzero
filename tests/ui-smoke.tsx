@@ -1,10 +1,13 @@
 // With npm run dev running, invoke runChecks() through Vite in a browser:
 // await page.evaluate(async () => (await import('/tests/ui-smoke.tsx')).runChecks())
 import { Profiler } from 'react'
+import { Renderer } from 'ogl'
+import Galaxy from '../src/components/effects/Galaxy'
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import LinkCard, { Favicon } from '../src/components/LinkCard'
 import Magnet from '../src/components/effects/Magnet'
+import SplitFlapText from '../src/components/effects/SplitFlapText'
 import { recentUrls } from '../src/lib/recent'
 
 export function runChecks() {
@@ -68,5 +71,114 @@ export function runChecks() {
     host.remove()
     if (previous === null) localStorage.removeItem('tabzero:recent')
     else localStorage.setItem('tabzero:recent', previous)
+  }
+}
+
+export function runClockChecks(reduced = false) {
+  const check = (ok: unknown, message: string) => { if (!ok) throw new Error(message) }
+  const host = document.body.appendChild(document.createElement('div'))
+  const root = createRoot(host)
+  const render = (text: string) => flushSync(() => root.render(<SplitFlapText text={text} />))
+  try {
+    render('23:59:58')
+    check(host.querySelectorAll('.split-flap-text__tile').length === 6, 'Clock needs six digit tiles')
+    check(!host.querySelector('.split-flap-text__flap'), 'Initial time must render without shuffling')
+    const firstTile = host.querySelector('.split-flap-text__tile')
+    const separator = host.querySelector('.split-flap-text__separator')
+    render('23:59:59')
+    check(host.querySelector('.split-flap-text__tile') === firstTile, 'Unchanged digits must keep their tiles')
+    check(host.querySelector('.split-flap-text__separator') === separator, 'Separators must remain stationary')
+    check(host.querySelectorAll('.split-flap-text__flap').length === 2, 'Only the changed digit may flip')
+    const back = host.querySelector('.split-flap-text__flap--back')!
+    check(getComputedStyle(back).animationName === (reduced ? 'none' : 'split-flap-back'), 'CSS must honor the current motion preference')
+    if (reduced) check(getComputedStyle(back).transform === 'none', 'Reduced motion must show the new digit immediately')
+    render('00:00:00')
+    check([...host.querySelectorAll('.split-flap-text__half--top')].map(el => el.textContent).join('') === '000000', 'Midnight rollover must update all digits')
+    check(host.querySelectorAll('.split-flap-text__flap').length === 12, 'Rollover must update all six flaps')
+    check(host.querySelector('.split-flap-text')?.getAttribute('aria-hidden') === 'true', 'Duplicate visual glyphs must be hidden from screen readers')
+    return `Clock checks passed (reduced motion: ${reduced})`
+  } finally {
+    root.unmount()
+    host.remove()
+  }
+}
+
+export async function runGalaxyChecks(reduced = false) {
+  const check = (ok: unknown, message: string) => { if (!ok) throw new Error(message) }
+  const host = document.body.appendChild(document.createElement('div'))
+  const root = createRoot(host)
+  const originalRender = Renderer.prototype.render
+  const originalContext = HTMLCanvasElement.prototype.getContext
+  const hiddenDescriptor = Object.getOwnPropertyDescriptor(document, 'hidden')
+  const nextFrame = () => new Promise(requestAnimationFrame)
+  let renders = 0
+  Renderer.prototype.render = function(options) {
+    if (host.contains(this.gl.canvas)) renders++
+    return originalRender.call(this, options)
+  }
+  const restoreVisibility = () => {
+    if (hiddenDescriptor) Object.defineProperty(document, 'hidden', hiddenDescriptor)
+    else Reflect.deleteProperty(document, 'hidden')
+    document.dispatchEvent(new Event('visibilitychange'))
+  }
+  try {
+    flushSync(() => root.render(<Galaxy />))
+    await nextFrame(); await nextFrame()
+    const canvas = host.querySelector('canvas')
+    check(canvas && canvas.width <= 1440 && canvas.height > 0, 'Galaxy must render with bounded resolution')
+    check(getComputedStyle(host.firstElementChild!).pointerEvents === 'none', 'Galaxy must not intercept clicks')
+    let before = renders
+    await nextFrame(); await nextFrame()
+    check(reduced ? renders === before : renders > before, 'Galaxy must honor reduced motion')
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true })
+    document.dispatchEvent(new Event('visibilitychange'))
+    before = renders
+    await nextFrame(); await nextFrame()
+    check(renders === before, 'Hidden tabs must stop rendering')
+    restoreVisibility()
+    check(renders > before, 'Returning to a visible tab must redraw')
+    flushSync(() => root.render(null))
+    before = renders
+    await nextFrame(); await nextFrame()
+    check(!host.querySelector('canvas') && renders === before, 'Unmount must remove canvas and stop rendering')
+    HTMLCanvasElement.prototype.getContext = () => { throw new Error('WebGL unavailable for fallback check') }
+    flushSync(() => root.render(<Galaxy />))
+    check(host.querySelector('.galaxy-background') && !host.querySelector('canvas'), 'WebGL failure must leave the page usable')
+    return `Galaxy checks passed (reduced motion: ${reduced})`
+  } finally {
+    root.unmount()
+    host.remove()
+    HTMLCanvasElement.prototype.getContext = originalContext
+    Renderer.prototype.render = originalRender
+    restoreVisibility()
+  }
+}
+
+export async function runGalaxyFailureChecks() {
+  const host = document.body.appendChild(document.createElement('div'))
+  const root = createRoot(host)
+  const originalRender = Renderer.prototype.render
+  let failures = 0
+  let context: Renderer['gl'] | undefined
+  Renderer.prototype.render = function(options) {
+    if (host.contains(this.gl.canvas)) {
+      context = this.gl
+      failures++
+      throw new Error('Simulated shader/draw failure')
+    }
+    return originalRender.call(this, options)
+  }
+  try {
+    flushSync(() => root.render(<Galaxy />))
+    if (!host.querySelector('.galaxy-background') || host.querySelector('canvas')) throw new Error('Drawing failure must fall back without unmounting the component')
+    if (!context?.isContextLost()) throw new Error('Failed initialization must release its WebGL context')
+    await new Promise(requestAnimationFrame)
+    await new Promise(requestAnimationFrame)
+    if (failures !== 1) throw new Error('Failed drawing must not leave an animation loop running')
+    return 'Galaxy drawing failure: fallback and resource cleanup passed'
+  } finally {
+    root.unmount()
+    host.remove()
+    Renderer.prototype.render = originalRender
   }
 }

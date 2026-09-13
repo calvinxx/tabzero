@@ -1,13 +1,22 @@
+import { Component, lazy, Suspense, type ReactNode } from 'react'
 import { MotionConfig } from 'motion/react'
 import SearchBox from '@/components/SearchBox'
 import DateTime from '@/components/DateTime'
 import ThemeSwitch from '@/components/ThemeSwitch'
 import GroupSection, { type BookmarkGroup } from '@/components/GroupSection'
 import bookmarks from '@/bookmarks.json'
+const Galaxy = lazy(() => import('@/components/effects/Galaxy'))
 const groups: BookmarkGroup[] = bookmarks
+
+class BackgroundBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() { return { failed: true } }
+  render() { return this.state.failed ? null : this.props.children }
+}
 
 export default function App() {
   return <MotionConfig reducedMotion="user">
+    <BackgroundBoundary><Suspense fallback={null}><Galaxy /></Suspense></BackgroundBoundary>
     <div className="page">
       <ThemeSwitch />
       <main id="main">

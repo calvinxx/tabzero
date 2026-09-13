@@ -30,7 +30,7 @@ SOFTWARE.
 
 Source: https://github.com/DavidHDev/react-bits
 
-Magnet is copied from ts-default/Animations/Magnet. BlurText is adapted from ts-default/TextAnimations/BlurText to animate a single text span with reduced-motion support.
+Magnet is adapted from ts-default/Animations/Magnet. BlurText is adapted from ts-default/TextAnimations/BlurText to animate a single text span with reduced-motion support. SplitFlapText is adapted from ts-default/TextAnimations/SplitFlapText (TSX and CSS) for controlled clock updates, stationary separators, theme colors, and reduced-motion support. Galaxy is adapted from ts-default/Backgrounds/Galaxy with its original shaders, theme-aware rendering, static reduced-motion mode, background-tab pausing, and WebGL fallback.
 
 MIT + Commons Clause License Condition v1.0
 
