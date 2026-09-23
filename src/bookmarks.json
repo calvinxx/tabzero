@@ -139,6 +139,10 @@
         "url": "https://supabase.com/"
       },
       {
+        "name": "Dodo Payments",
+        "url": "https://dodopayments.com/zh"
+      },
+      {
         "name": "Resend",
         "url": "https://resend.com/"
       },
@@ -199,6 +203,10 @@
       {
         "name": "TradingView",
         "url": "https://cn.tradingview.com/"
+      },
+      {
+        "name": "Step1",
+        "url": "https://step1.dev/"
       },
       {
         "name": "1Password",
