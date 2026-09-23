@@ -199,6 +199,10 @@
       {
         "name": "TradingView",
         "url": "https://cn.tradingview.com/"
+      },
+      {
+        "name": "1Password",
+        "url": "https://my.1password.com"
       }
     ]
   },
@@ -463,6 +467,22 @@
       {
         "name": "Commandcode",
         "url": "https://commandcode.ai/zh"
+      },
+      {
+        "name": "TypeSafe AI",
+        "url": "https://console.typesafe.ai"
+      },
+      {
+        "name": "MiniMax",
+        "url": "https://platform.minimax.cn/console"
+      },
+      {
+        "name": "小米 MiMo",
+        "url": "https://platform.xiaomimimo.com/console"
+      },
+      {
+        "name": "阶跃星辰",
+        "url": "https://platform.stepfun.com/account-info"
       }
     ]
   },
