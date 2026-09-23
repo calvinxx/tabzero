@@ -92,7 +92,10 @@ export default function SearchBox() {
     try {
       const chosen = expanded && active >= 0 ? matches[active] : undefined
       const destination = chosen?.url ?? searchDestination(query, engine)
-      if (destination) window.open(destination, '_blank', 'noopener,noreferrer')
+      if (destination) {
+        window.open(destination, '_blank', 'noopener,noreferrer')
+        setQuery('')
+      }
       if (chosen) recordVisit(chosen.url)
       setSuggesting(false)
       setActive(-1)
@@ -135,7 +138,7 @@ export default function SearchBox() {
     {expanded && <ul ref={results} id="bookmark-results" role="listbox" aria-label={query.trim() ? '匹配书签' : '最近访问'} className="bookmark-results">
       {matches.map((link, index) => <li key={`${link.group}:${link.url}`} id={`bookmark-result-${index}`} role="option" aria-selected={active === index}
         className="bookmark-result" onPointerDown={event => event.preventDefault()}
-        onClick={() => { recordVisit(link.url); window.open(link.url, '_blank', 'noopener,noreferrer'); setSuggesting(false); setActive(-1) }}>
+        onClick={() => { recordVisit(link.url); window.open(link.url, '_blank', 'noopener,noreferrer'); setQuery(''); setSuggesting(false); setActive(-1) }}>
         <Favicon link={link} /><span className="result-name">{link.name}</span><span className="result-group">{link.group}</span>
       </li>)}
     </ul>}
